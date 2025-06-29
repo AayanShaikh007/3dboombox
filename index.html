@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>scalars jukebox !!!!!</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+</head>
+
+<body>
+    <audio id="audioplaying" src="assets/music/happy.mp3"></audio>
+
+    <a-scene>
+
+    <a-assets>
+        <img id="cart" src="assets/covers/cart.jpg">
+        <img id="citrik" src="assets/covers/citrik.jpg">
+        <img id="happy" src="assets/covers/cover1.png">
+        <img id="passynth" src="assets/covers/passynth.jpeg">
+        <img id="img1" src="cat.jpg">
+        <img id="img2" src="cat2.webp">
+    </a-assets>
+    
+    <a-entity camera position="0 1.6 4" look-controls>
+        <a-cursor
+            color="white"
+            fuse="false"
+            raycaster="objects: .clickable">
+        </a-cursor>
+    </a-entity>
+
+    <!-- main box -->
+    <a-box position="0 2 -2" width="3" height="3" depth="0.5" color="#555"></a-box>
+    <a-text value="___Scalar's Jukebox___ :)" align="center" position="0 3.3 -1.6" width="5"></a-text>
+    <a-text value="Drag your mouse to look around/interact!" align="center" position="0 0.9 -1.6" width="3"></a-text>
+
+    <!-- buttons -->
+    <a-box id="previous" class="clickable" position="-1 1.5 -1.7" depth="0.1" height="0.5" width="0.8" color="red"></a-box>
+    <a-text value="<-- Last" align="center" position="-1 1.5 -1.6" width="2"></a-text>
+
+    <a-box id="play" class="clickable" position="0 1.5 -1.7" depth="0.1" height="0.5" width="0.8" color="grey"></a-box>
+    <a-text value="Play/Pause" align="center" position="0 1.5 -1.6" width="2"></a-text>
+
+    <a-box id="next" class="clickable" position="1 1.5 -1.7" depth="0.1" height="0.5" width="0.8" color="blue"></a-box>
+    <a-text value="Next -->" align="center" position="1 1.5 -1.6" width="2"></a-text>
+
+    <!-- album cover-->
+    <a-plane
+      id="ambumcoverbox"
+      position="0 2.6 -1.6"
+      width="1"
+      height="1"
+      material="src: assets/covers/cover1.png">
+    </a-plane>
+    <a-plane id="cat"
+            position="-3.6 1.2 -1.5"
+            width="2" height="2"
+            material="src: #img1; transparent: true">
+    </a-plane>
+
+    <a-plane id="cat2"
+            position="3.6 1.2 -1.5"
+            width="2" height="2"
+            material="src: #img2; transparent: true">
+    </a-plane>
+
+
+
+
+
+    </a-scene>
+
+  <script>
+    const songs = [
+        "assets/music/happy.mp3",
+        "assets/music/citrik.mp3",
+        "assets/music/contigo.mp3",
+        
+        "assets/music/tape.mp3",
+        "assets/music/swag.mp3"
+    ];
+
+    
+    const covers = [
+        "#happy",
+        "#citrik",
+        "#passynth",
+        
+        "#passynth",
+        "#cart",
+    ];
+
+
+
+    let current = 0;
+    let audio = document.getElementById("audioplaying");
+
+    function updatesong() {
+        audio.src = songs[current];
+        audio.play();
+        document.querySelector("#ambumcoverbox").setAttribute("material", `src: ${covers[current]}`);
+    }
+
+
+    document.querySelector("#play").addEventListener("click", function () {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+
+    document.querySelector("#next").addEventListener("click", function () {
+      current = (current + 1) % songs.length;
+      updatesong();
+    });
+
+    document.querySelector("#previous").addEventListener("click", function () {
+      current = (current - 1 + songs.length) % songs.length;
+      updatesong();
+    });
+
+
+  </script>
+</body>
+</html>
